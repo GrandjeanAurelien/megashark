@@ -50,7 +50,7 @@ class MoviesController extends AppController
      */
     public function add()
     {
-        $movie = $this->Showtimes->Movies->find('List');
+        $movie = $this->Movies->newEntity();
         if ($this->request->is('post')) {
             $movie = $this->Movies->patchEntity($movie, $this->request->getData());
             if ($this->Movies->save($movie)) {
@@ -62,7 +62,6 @@ class MoviesController extends AppController
         }
         $this->set(compact('movie'));
         $this->set('_serialize', ['movie']);
-        $this->set('movies');
     }
 
     /**
