@@ -6,7 +6,8 @@ use App\Controller\AppController;
 /**
  * Showtimes Controller
  *
- *
+ * @property \App\Model\Table\ShowtimesTable $Showtimes
+ * 
  * @method \App\Model\Entity\Showtime[] paginate($object = null, array $settings = [])
  */
 class ShowtimesController extends AppController
@@ -19,6 +20,10 @@ class ShowtimesController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Movies', 'Rooms']
+        ];
+        
         $showtimes = $this->paginate($this->Showtimes);
 
         $this->set(compact('showtimes'));
@@ -35,7 +40,7 @@ class ShowtimesController extends AppController
     public function view($id = null)
     {
         $showtime = $this->Showtimes->get($id, [
-            'contain' => []
+            'contain' => ['Movies', 'Rooms']
         ]);
 
         $this->set('showtime', $showtime);
@@ -50,8 +55,6 @@ class ShowtimesController extends AppController
     public function add()
     {
         $showtime = $this->Showtimes->newEntity();
-        $movie = $this->Showtimes->Movies->find('List');
-        $rooms = $this->Showtimes->Rooms->find('List');
         if ($this->request->is('post')) {
             $showtime = $this->Showtimes->patchEntity($showtime, $this->request->getData());
             if ($this->Showtimes->save($showtime)) {
@@ -61,9 +64,10 @@ class ShowtimesController extends AppController
             }
             $this->Flash->error(__('The showtime could not be saved. Please, try again.'));
         }
-        $this->set(compact('showtime'));
-        $this->set('movies');
-        $this->set('rooms');
+        
+        $movies = $this->Showtimes->Movies->find('list', ['limit' => 200]);
+        $rooms = $this->Showtimes->Rooms->find('list', ['limit' => 200]);
+        $this->set(compact('showtime', 'rooms', 'movies'));
         $this->set('_serialize', ['showtime']);
     }
 
@@ -88,7 +92,10 @@ class ShowtimesController extends AppController
             }
             $this->Flash->error(__('The showtime could not be saved. Please, try again.'));
         }
-        $this->set(compact('showtime'));
+        
+        $movies = $this->Showtimes->Movies->find('list', ['limit' => 200]);
+        $rooms = $this->Showtimes->Rooms->find('list', ['limit' => 200]);
+        $this->set(compact('showtime', 'rooms', 'movies'));
         $this->set('_serialize', ['showtime']);
     }
 

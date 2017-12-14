@@ -48,6 +48,24 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <div class="showtimes index large-9 medium-8 columns content">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th scope="col"><?= $this->Paginator->sort('Monday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Tuesday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Wednesday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Thursday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Friday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Saturday') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('Sunday') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+    </div>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->first('<< ' . __('first')) ?>
